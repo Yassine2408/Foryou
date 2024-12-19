@@ -447,3 +447,63 @@ canvas {
 .spinning {
     animation: spin 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
 } 
+
+/* Reward Notification Styles */
+.reward-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(255, 105, 180, 0.3);
+    max-width: 300px;
+    z-index: 1000;
+}
+
+.reward-content {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.reward-icon {
+    font-size: 3em;
+    margin-right: 15px;
+}
+
+.reward-description {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.streak-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: linear-gradient(45deg, #ff69b4, #ff8ac1);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+}
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #ff69b4;
+    animation: confettiFall 3s linear forwards;
+    z-index: 999;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+} 

@@ -38,7 +38,7 @@ const questions = [
     {
         question: "What's your comfort food craving?",
         options: [
-            "Chocolate ���",
+            "Chocolate 🍫",
             "Ice cream 🍦",
             "Pizza 🍕",
             "Warm soup 🥣"
@@ -464,4 +464,182 @@ function initializeFortuneWheel() {
 
     // Add spin button event listener
     document.getElementById('spinButton').addEventListener('click', spinWheel);
+}
+
+const rewards = [
+    {
+        level: 2,
+        reward: "🎁 Virtual Love Coupon: One Free Hug",
+        description: "Redeemable anytime for a warm, loving hug!"
+    },
+    {
+        level: 3,
+        reward: "🌹 Digital Rose Garden",
+        description: "A beautiful collection of virtual roses just for you!"
+    },
+    {
+        level: 5,
+        reward: "👑 Queen of My Heart Crown",
+        description: "You're officially crowned as the queen of my heart!"
+    },
+    {
+        level: 7,
+        reward: "💝 Love Poem Collection",
+        description: "Special poems written just for you!"
+    },
+    {
+        level: 10,
+        reward: "🌟 Eternal Love Star",
+        description: "A star named after our love!"
+    }
+];
+
+const achievements = {
+    dailyStreak: {
+        name: "Daily Love Sender",
+        levels: [3, 7, 14, 30],
+        rewards: ["💌", "💝", "👑", "🌟"]
+    },
+    totalClicks: {
+        name: "Love Clicker",
+        levels: [50, 100, 500, 1000],
+        rewards: ["💕", "💖", "💘", "💫"]
+    }
+};
+
+// Add these variables to track progress
+let dailyStreak = 0;
+let totalClicks = 0;
+let lastClickDate = null;
+let unclaimedRewards = [];
+
+// Modify the existing sendLove function
+function sendLove() {
+    totalClicks++;
+    updateDailyStreak();
+    
+    lovePoints += Math.floor(Math.random() * 5) + 1;
+    if (lovePoints >= pointsPerLevel) {
+        loveLevel++;
+        lovePoints = 0;
+        checkForRewards();
+        showLevelUpAnimation();
+    }
+    
+    checkAchievements();
+    updateHeartStats();
+    createLoveParticles();
+    saveProgress();
+}
+
+// Add these new functions
+function updateDailyStreak() {
+    const today = new Date().toDateString();
+    
+    if (lastClickDate !== today) {
+        if (lastClickDate === new Date(Date.now() - 86400000).toDateString()) {
+            dailyStreak++;
+            showStreakAnimation();
+        } else if (lastClickDate !== null) {
+            dailyStreak = 1;
+        }
+        lastClickDate = today;
+    }
+}
+
+function checkForRewards() {
+    const levelReward = rewards.find(r => r.level === loveLevel);
+    if (levelReward) {
+        unclaimedRewards.push(levelReward);
+        showRewardNotification(levelReward);
+    }
+}
+
+function showRewardNotification(reward) {
+    const notification = document.createElement('div');
+    notification.className = 'reward-notification animate__animated animate__bounceIn';
+    notification.innerHTML = `
+        <h4>New Reward Unlocked! 🎉</h4>
+        <div class="reward-content">
+            <div class="reward-icon">${reward.reward.split(' ')[0]}</div>
+            <div class="reward-info">
+                <p>${reward.reward}</p>
+                <p class="reward-description">${reward.description}</p>
+            </div>
+        </div>
+        <button onclick="claimReward(this)" class="cute-button">Claim Reward 🎁</button>
+    `;
+    
+    document.querySelector('.virtual-heart-container').appendChild(notification);
+    
+    // Add confetti effect
+    createConfetti();
+}
+
+function claimReward(button) {
+    const notification = button.parentElement;
+    notification.classList.remove('animate__bounceIn');
+    notification.classList.add('animate__bounceOut');
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 1000);
+    
+    // Remove from unclaimed rewards
+    unclaimedRewards.shift();
+}
+
+function createConfetti() {
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.animationDelay = Math.random() * 3 + 's';
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 3000);
+    }
+}
+
+function showStreakAnimation() {
+    const streak = document.createElement('div');
+    streak.className = 'streak-notification animate__animated animate__slideInUp';
+    streak.innerHTML = `
+        <p>Daily Streak: ${dailyStreak} days! 🔥</p>
+    `;
+    
+    document.querySelector('.virtual-heart-container').appendChild(streak);
+    
+    setTimeout(() => {
+        streak.classList.remove('animate__slideInUp');
+        streak.classList.add('animate__slideOutDown');
+        setTimeout(() => streak.remove(), 1000);
+    }, 2000);
+}
+
+function saveProgress() {
+    const progress = {
+        loveLevel,
+        lovePoints,
+        dailyStreak,
+        totalClicks,
+        lastClickDate,
+        unclaimedRewards
+    };
+    localStorage.setItem('loveProgress', JSON.stringify(progress));
+}
+
+function loadProgress() {
+    const saved = localStorage.getItem('loveProgress');
+    if (saved) {
+        const progress = JSON.parse(saved);
+        loveLevel = progress.loveLevel;
+        lovePoints = progress.lovePoints;
+        dailyStreak = progress.dailyStreak;
+        totalClicks = progress.totalClicks;
+        lastClickDate = progress.lastClickDate;
+        unclaimedRewards = progress.unclaimedRewards;
+        updateHeartStats();
+    }
 }
