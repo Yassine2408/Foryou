@@ -38,7 +38,7 @@ const questions = [
     {
         question: "What's your comfort food craving?",
         options: [
-            "Chocolate 🍫",
+            "Chocolate ���",
             "Ice cream 🍦",
             "Pizza 🍕",
             "Warm soup 🥣"
@@ -145,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     initializeLoveFeatures();
+    initializeFortuneWheel();
 });
 
 function startQuiz() {
@@ -363,4 +364,104 @@ function showLevelUpAnimation() {
     document.querySelector('.virtual-heart-container').appendChild(message);
     
     setTimeout(() => message.remove(), 3000);
+}
+
+const fortunes = [
+    { text: "A romantic surprise is coming your way! 🎁", color: "#FFB6C1" },
+    { text: "Your smile makes my heart skip a beat 💓", color: "#FFC0CB" },
+    { text: "You'll have an extra special day today! ✨", color: "#FFD1DC" },
+    { text: "Our love grows stronger each day 🌱", color: "#FF69B4" },
+    { text: "You're my favorite person in the world 💝", color: "#FF1493" },
+    { text: "Time for cuddles and kisses! 🤗", color: "#DB7093" },
+    { text: "You deserve all the happiness! 🌈", color: "#FF82AB" },
+    { text: "I'm thinking about you right now 💭", color: "#FF34B3" }
+];
+
+let isSpinning = false;
+
+function initializeFortuneWheel() {
+    const canvas = document.getElementById('fortuneWheel');
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(centerX, centerY) - 10;
+
+    canvas.width = 300;
+    canvas.height = 300;
+
+    function drawWheel() {
+        const sliceAngle = (2 * Math.PI) / fortunes.length;
+
+        for (let i = 0; i < fortunes.length; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = fortunes[i].color;
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, i * sliceAngle, (i + 1) * sliceAngle);
+            ctx.closePath();
+            ctx.fill();
+
+            // Add text
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(i * sliceAngle + sliceAngle / 2);
+            ctx.textAlign = 'right';
+            ctx.fillStyle = '#fff';
+            ctx.font = '14px Quicksand';
+            ctx.fillText('❤️', radius - 20, 5);
+            ctx.restore();
+        }
+    }
+
+    function spinWheel() {
+        if (isSpinning) return;
+        isSpinning = true;
+
+        const spinButton = document.getElementById('spinButton');
+        spinButton.disabled = true;
+
+        const resultDiv = document.getElementById('fortuneResult');
+        resultDiv.classList.remove('show');
+
+        const spins = 5; // Number of full rotations
+        const randomDegrees = Math.random() * 360; // Random final position
+        const totalDegrees = spins * 360 + randomDegrees;
+        
+        canvas.style.transform = `rotate(${totalDegrees}deg)`;
+
+        setTimeout(() => {
+            const selectedIndex = Math.floor(randomDegrees / (360 / fortunes.length));
+            showFortune(fortunes[selectedIndex].text);
+            isSpinning = false;
+            spinButton.disabled = false;
+        }, 3000);
+    }
+
+    function showFortune(fortune) {
+        const resultDiv = document.getElementById('fortuneResult');
+        resultDiv.textContent = fortune;
+        resultDiv.classList.add('show');
+
+        // Add floating hearts animation
+        createFortuneParticles();
+    }
+
+    function createFortuneParticles() {
+        const container = document.querySelector('.fortune-wheel-container');
+        for (let i = 0; i < 10; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'love-particles';
+            particle.innerHTML = ['❤️', '💖', '✨', '💕'][Math.floor(Math.random() * 4)];
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.fontSize = `${Math.random() * 1 + 0.5}em`;
+            container.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 1500);
+        }
+    }
+
+    // Initial wheel draw
+    drawWheel();
+
+    // Add spin button event listener
+    document.getElementById('spinButton').addEventListener('click', spinWheel);
 }

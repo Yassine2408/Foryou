@@ -391,3 +391,59 @@ p {
     0% { transform: translateY(0) scale(1); opacity: 1; }
     100% { transform: translateY(-50px) scale(0); opacity: 0; }
 } 
+
+/* Fortune Wheel Styles */
+.fortune-wheel-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+.wheel-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+}
+
+canvas {
+    transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    z-index: 2;
+    filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.5));
+}
+
+.fortune-result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.2em;
+    min-height: 60px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.fortune-result.show {
+    opacity: 1;
+    background: linear-gradient(135deg, #ffe6f2, #fff);
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spinning {
+    animation: spin 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+} 
