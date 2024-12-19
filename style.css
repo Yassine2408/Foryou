@@ -1,0 +1,232 @@
+body {
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(135deg, #ffe6f2 0%, #ffd6e5 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Floating Hearts Animation */
+.floating-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) scale(1);
+        opacity: 0;
+    }
+}
+
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: floatHeart 4s linear infinite;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff69b4, #ff8ac1);
+    transition: width 0.3s ease;
+}
+
+/* Enhanced Buttons */
+.cute-button {
+    background: linear-gradient(45deg, #ff69b4, #ff8ac1);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+}
+
+.cute-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+}
+
+.cute-button:active {
+    transform: translateY(1px);
+}
+
+/* Enhanced Option Buttons */
+.option-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #ffb6c1;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.option-button:hover {
+    background: linear-gradient(45deg, #ffd6e5, #ffecf3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+}
+
+.option-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 182, 193, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.option-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Enhanced Care Package */
+.care-package {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.care-package:hover {
+    transform: translateY(-5px);
+}
+
+.care-items li {
+    margin: 15px 0;
+    font-size: 1.3em;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.care-items li:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* Typography Enhancements */
+h1 {
+    color: #ff69b4;
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    font-weight: 700;
+}
+
+h2 {
+    color: #ff69b4;
+    font-size: 2.3em;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .cute-button {
+        padding: 12px 24px;
+        font-size: 1em;
+    }
+} 
+
+/* Add these styles at the end of your style.css file */
+
+.personal-message {
+    background: linear-gradient(135deg, #fff5f8, #fff);
+    padding: 30px;
+    border-radius: 20px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+    border: 2px solid #ffd6e5;
+}
+
+.personal-message h3 {
+    color: #ff69b4;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.love-letter {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #666;
+    text-align: left;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    position: relative;
+}
+
+.love-letter::before {
+    content: '💌';
+    font-size: 2em;
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    transform: rotate(-15deg);
+} 

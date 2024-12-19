@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Lovely Raouia 💕</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="floating-hearts"></div>
+    <div class="container">
+        <div class="hearts-bg"></div>
+        
+        <div class="welcome-screen animate__animated animate__fadeIn" id="welcome">
+            <h1 class="animate__animated animate__heartBeat animate__delay-1s">Hey Beautiful Raouia 🌸</h1>
+            <p class="animate__animated animate__fadeIn animate__delay-2s">I made this just for you because I care about you so much!</p>
+            <button id="startButton" class="cute-button animate__animated animate__pulse animate__infinite">
+                Start Your Feel-Good Journey 💖
+            </button>
+        </div>
+
+        <div class="quiz-container animate__animated animate__fadeIn" id="quiz" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div id="question-container"></div>
+            <div id="options-container"></div>
+            <button onclick="nextQuestion()" class="cute-button">Next 🌟</button>
+        </div>
+
+        <div class="result-screen animate__animated animate__fadeIn" id="result" style="display: none;">
+            <h2 class="animate__animated animate__bounceIn">You're Amazing! 🌺</h2>
+            <div id="special-message" class="animate__animated animate__fadeIn animate__delay-1s"></div>
+            <div class="care-package animate__animated animate__fadeIn animate__delay-2s">
+                <h3>Your Virtual Care Package:</h3>
+                <ul class="care-items">
+                    <li class="animate__animated animate__fadeInLeft animate__delay-2s">🫖 Virtual warm tea</li>
+                    <li class="animate__animated animate__fadeInLeft animate__delay-3s">🧸 Digital cuddles</li>
+                    <li class="animate__animated animate__fadeInLeft animate__delay-4s">🍫 Sweet chocolate vibes</li>
+                    <li class="animate__animated animate__fadeInLeft animate__delay-5s">💝 Endless love</li>
+                </ul>
+            </div>
+            <button id="restartButton" class="cute-button animate__animated animate__pulse animate__infinite animate__delay-6s">
+                Take the Quiz Again 💕
+            </button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
