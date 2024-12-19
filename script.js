@@ -38,7 +38,7 @@ const questions = [
     {
         question: "What's your comfort food craving?",
         options: [
-            "Chocolate 🍫",
+            "Chocolate ���",
             "Ice cream 🍦",
             "Pizza 🍕",
             "Warm soup 🥣"
@@ -643,3 +643,66 @@ function loadProgress() {
         updateHeartStats();
     }
 }
+
+function checkAchievements() {
+    // Check total clicks achievements
+    achievements.totalClicks.levels.forEach((level, index) => {
+        if (totalClicks >= level && !localStorage.getItem(`achievement_clicks_${level}`)) {
+            const reward = achievements.totalClicks.rewards[index];
+            showAchievementNotification(
+                `${achievements.totalClicks.name} Level ${index + 1}`,
+                `You've sent love ${level} times! ${reward}`,
+                reward
+            );
+            localStorage.setItem(`achievement_clicks_${level}`, 'true');
+        }
+    });
+
+    // Check daily streak achievements
+    achievements.dailyStreak.levels.forEach((level, index) => {
+        if (dailyStreak >= level && !localStorage.getItem(`achievement_streak_${level}`)) {
+            const reward = achievements.dailyStreak.rewards[index];
+            showAchievementNotification(
+                `${achievements.dailyStreak.name} Level ${index + 1}`,
+                `You've maintained love for ${level} days! ${reward}`,
+                reward
+            );
+            localStorage.setItem(`achievement_streak_${level}`, 'true');
+        }
+    });
+}
+
+function showAchievementNotification(title, message, reward) {
+    const notification = document.createElement('div');
+    notification.className = 'achievement-notification animate__animated animate__bounceIn';
+    notification.innerHTML = `
+        <h4>Achievement Unlocked! 🏆</h4>
+        <div class="achievement-content">
+            <div class="achievement-icon">${reward}</div>
+            <div class="achievement-info">
+                <p class="achievement-title">${title}</p>
+                <p class="achievement-message">${message}</p>
+            </div>
+        </div>
+    `;
+    
+    document.querySelector('.virtual-heart-container').appendChild(notification);
+    
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('animate__bounceIn');
+        notification.classList.add('animate__bounceOut');
+        setTimeout(() => notification.remove(), 1000);
+    }, 3000);
+}
+
+// Make sure to initialize these variables at the start
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing initialization code ...
+    
+    // Initialize progress
+    loadProgress();
+    
+    // Add event listener for send love button
+    document.getElementById('sendLove').addEventListener('click', sendLove);
+});
