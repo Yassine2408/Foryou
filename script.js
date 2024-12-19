@@ -38,7 +38,7 @@ const questions = [
     {
         question: "What's your comfort food craving?",
         options: [
-            "Chocolate ���",
+            "Chocolate 🍫",
             "Ice cream 🍦",
             "Pizza 🍕",
             "Warm soup 🥣"
@@ -143,6 +143,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('game').style.display = 'none';
         document.getElementById('welcome').style.display = 'block';
     });
+    
+    initializeLoveFeatures();
 });
 
 function startQuiz() {
@@ -262,3 +264,103 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+const loveLetters = [
+    {
+        title: "My Dearest Raouia",
+        content: "Every morning when I wake up, my first thought is of you. Your smile brightens my darkest days. 💕"
+    },
+    {
+        title: "To My Beautiful Love",
+        content: "You are the melody in my heart, the sunshine in my life, and the love of my dreams. 🌟"
+    },
+    {
+        title: "My Sweet Angel",
+        content: "Your love makes everything better. You're the reason I smile every single day. 🌸"
+    },
+    {
+        title: "To My Soulmate",
+        content: "In a world full of people, my heart chose you, and it keeps choosing you every single day. ❤️"
+    },
+    {
+        title: "My Precious Love",
+        content: "You're not just my girlfriend, you're my best friend, my confidante, and my whole world. 💝"
+    }
+];
+
+// Virtual Heart Pet System
+let lovePoints = 0;
+let loveLevel = 1;
+const pointsPerLevel = 100;
+
+function initializeLoveFeatures() {
+    // Set up daily love letter
+    const today = new Date();
+    const letterIndex = today.getDate() % loveLetters.length;
+    const todayLetter = loveLetters[letterIndex];
+    
+    const letterContainer = document.getElementById('dailyLetter');
+    letterContainer.innerHTML = `
+        <h4>${todayLetter.title}</h4>
+        <p>${todayLetter.content}</p>
+    `;
+
+    // Set up virtual heart
+    updateHeartStats();
+    
+    document.getElementById('sendLove').addEventListener('click', sendLove);
+    document.getElementById('virtualHeart').addEventListener('click', createLoveParticles);
+}
+
+function sendLove() {
+    lovePoints += Math.floor(Math.random() * 5) + 1;
+    if (lovePoints >= pointsPerLevel) {
+        loveLevel++;
+        lovePoints = 0;
+        showLevelUpAnimation();
+    }
+    updateHeartStats();
+    createLoveParticles();
+}
+
+function updateHeartStats() {
+    document.getElementById('loveLevel').textContent = loveLevel;
+    document.getElementById('lovePoints').textContent = lovePoints;
+    
+    // Update heart size based on level
+    const heart = document.getElementById('virtualHeart');
+    heart.style.fontSize = `${4 + (loveLevel * 0.5)}em`;
+}
+
+function createLoveParticles() {
+    const heart = document.getElementById('virtualHeart');
+    const container = heart.parentElement;
+    
+    for (let i = 0; i < 5; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'love-particles';
+        particle.innerHTML = ['❤️', '💕', '💖', '💗'][Math.floor(Math.random() * 4)];
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.fontSize = `${Math.random() * 1 + 0.5}em`;
+        container.appendChild(particle);
+        
+        setTimeout(() => particle.remove(), 1000);
+    }
+}
+
+function showLevelUpAnimation() {
+    const heart = document.getElementById('virtualHeart');
+    heart.classList.add('animate__animated', 'animate__bounce');
+    
+    setTimeout(() => {
+        heart.classList.remove('animate__animated', 'animate__bounce');
+    }, 1000);
+    
+    // Show celebration message
+    const message = document.createElement('div');
+    message.className = 'level-up-message animate__animated animate__fadeInUp';
+    message.textContent = `Level Up! Your love has grown to level ${loveLevel}! 🎉`;
+    document.querySelector('.virtual-heart-container').appendChild(message);
+    
+    setTimeout(() => message.remove(), 3000);
+}
