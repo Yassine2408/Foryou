@@ -38,7 +38,7 @@ const questions = [
     {
         question: "What's your comfort food craving?",
         options: [
-            "Chocolate 🍫",
+            "Chocolate ���",
             "Ice cream 🍦",
             "Pizza 🍕",
             "Warm soup 🥣"
@@ -49,10 +49,100 @@ const questions = [
 let currentQuestion = 0;
 let answers = [];
 
+// Memory Game Logic
+const gameEmojis = ['❤️', '💖', '💝', '💕', '💗', '💓', '💘', '💞'];
+let cards = [...gameEmojis, ...gameEmojis];
+let flippedCards = [];
+let matchedPairs = 0;
+let moves = 0;
+
+function initializeGame() {
+    const gameContainer = document.querySelector('.memory-game');
+    gameContainer.innerHTML = '';
+    matchedPairs = 0;
+    moves = 0;
+    flippedCards = [];
+    
+    // Shuffle cards
+    cards.sort(() => Math.random() - 0.5);
+    
+    // Update stats
+    document.getElementById('moves').textContent = `Moves: ${moves}`;
+    document.getElementById('pairs').textContent = `Pairs Found: ${matchedPairs}`;
+    
+    // Create cards
+    cards.forEach((emoji, index) => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.index = index;
+        card.dataset.emoji = emoji;
+        
+        card.innerHTML = `
+            <div class="front">${emoji}</div>
+            <div class="back">💌</div>
+        `;
+        
+        card.addEventListener('click', flipCard);
+        gameContainer.appendChild(card);
+    });
+}
+
+function flipCard() {
+    if (flippedCards.length === 2) return;
+    if (this.classList.contains('flipped')) return;
+    
+    this.classList.add('flipped');
+    flippedCards.push(this);
+    
+    if (flippedCards.length === 2) {
+        moves++;
+        document.getElementById('moves').textContent = `Moves: ${moves}`;
+        checkMatch();
+    }
+}
+
+function checkMatch() {
+    const [card1, card2] = flippedCards;
+    const match = card1.dataset.emoji === card2.dataset.emoji;
+    
+    if (match) {
+        matchedPairs++;
+        document.getElementById('pairs').textContent = `Pairs Found: ${matchedPairs}`;
+        flippedCards = [];
+        
+        if (matchedPairs === gameEmojis.length) {
+            setTimeout(() => {
+                alert(`Congratulations! You won in ${moves} moves! 🎉`);
+                initializeGame();
+            }, 500);
+        }
+    } else {
+        setTimeout(() => {
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+            flippedCards = [];
+        }, 1000);
+    }
+}
+
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Add event listener to the start button
     document.getElementById('startButton').addEventListener('click', startQuiz);
+    
+    const playGameButton = document.getElementById('playGameButton');
+    const backToQuizButton = document.getElementById('backToQuiz');
+    
+    playGameButton.addEventListener('click', function() {
+        document.getElementById('welcome').style.display = 'none';
+        document.getElementById('game').style.display = 'block';
+        initializeGame();
+    });
+    
+    backToQuizButton.addEventListener('click', function() {
+        document.getElementById('game').style.display = 'none';
+        document.getElementById('welcome').style.display = 'block';
+    });
 });
 
 function startQuiz() {

@@ -16,6 +16,9 @@
         <div class="welcome-screen animate__animated animate__fadeIn" id="welcome">
             <h1 class="animate__animated animate__heartBeat animate__delay-1s">Hey Beautiful Raouia 🌸</h1>
             <p class="animate__animated animate__fadeIn animate__delay-2s">I made this just for you because I care about you so much!</p>
+            <button id="playGameButton" class="cute-button animate__animated animate__pulse">
+                Play Love Memory Game 🎮
+            </button>
             <button id="startButton" class="cute-button animate__animated animate__pulse animate__infinite">
                 Start Your Feel-Good Journey 💖
             </button>
@@ -45,6 +48,16 @@
             <button id="restartButton" class="cute-button animate__animated animate__pulse animate__infinite animate__delay-6s">
                 Take the Quiz Again 💕
             </button>
+        </div>
+
+        <div class="game-container animate__animated animate__fadeIn" id="game" style="display: none;">
+            <h2>Love Memory Game 💕</h2>
+            <div class="game-stats">
+                <span id="moves">Moves: 0</span>
+                <span id="pairs">Pairs Found: 0</span>
+            </div>
+            <div class="memory-game"></div>
+            <button id="backToQuiz" class="cute-button">Back to Quiz 🌸</button>
         </div>
     </div>
     <script src="script.js"></script>
